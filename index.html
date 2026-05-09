@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Fire — Home</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- BACKGROUND VIDEO -->
+    <video
+        id="bg-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto">
+        <source src="videos/bgvideo.mp4" type="video/mp4">
+    </video>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="audio/bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="overlay" aria-hidden="true"></div>
+
+    <nav>
+
+        <h1>FREE FIRE</h1>
+
+        <ul>
+
+            <li><a href="index.html">Home</a></li>
+
+            <li><a href="characters.html">Characters</a></li>
+
+            <li><a href="weapons.html">Weapons</a></li>
+
+            <li><a href="events.html">Events</a></li>
+
+        </ul>
+
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+
+            <h2>BATTLE FOR GLORY</h2>
+
+            <p>
+                “Only legends survive the battleground.”
+            </p>
+
+            <a class="event-btn" href="https://ff.garena.com/en/" target="_blank" rel="noopener noreferrer">
+                PLAY NOW
+            </a>
+
+        </div>
+
+    </section>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <script>
+        AOS.init({
+            duration: 1500,
+            once: false
+        });
+    </script>
+
+    <script>
+        function startBackgroundVideos() {
+            document.querySelectorAll('video').forEach(function (video) {
+                video.muted = true;
+                var playAttempt = video.play();
+                if (playAttempt !== undefined && playAttempt.catch) {
+                    playAttempt.catch(function () { });
+                }
+            });
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startBackgroundVideos);
+        } else {
+            startBackgroundVideos();
+        }
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden) startBackgroundVideos();
+        });
+
+        (function initBackgroundMusic() {
+            var music = document.getElementById('bg-music');
+            if (!music) return;
+            music.volume = 0.35;
+
+            function tryPlayMusic() {
+                var attempt = music.play();
+                if (attempt && attempt.catch) attempt.catch(function () {});
+            }
+
+            tryPlayMusic();
+            document.addEventListener('click', tryPlayMusic, { once: true });
+            document.addEventListener('keydown', tryPlayMusic, { once: true });
+            document.addEventListener('touchstart', tryPlayMusic, { once: true });
+        })();
+
+    </script>
+
+</body>
+
+</html>

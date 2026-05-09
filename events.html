@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fire Events</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <video autoplay muted loop playsinline preload="auto" class="events-video">
+        <source src="videos/eventsbg.mp4" type="video/mp4">
+    </video>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="audio/bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="events-overlay"></div>
+
+    <nav>
+        <h1>FREE FIRE</h1>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="characters.html">Characters</a></li>
+            <li><a href="weapons.html">Weapons</a></li>
+            <li><a href="events.html">Events</a></li>
+        </ul>
+    </nav>
+
+    <section class="events-section">
+        <h1 class="events-title">FREE FIRE EVENTS</h1>
+
+        <p class="events-subtitle">
+            Enter the ultimate battleground tournaments and legendary challenges.
+        </p>
+
+        <div class="events-container">
+            <div class="event-card">
+                <div class="event-content">
+                    <h2>RAMPAGE EVENT</h2>
+                    <p>Participate in the legendary Rampage tournament and unlock exclusive rewards.</p>
+                    <a class="event-btn" href="register.html">JOIN NOW</a>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <div class="event-content">
+                    <h2>BOOYAH CHALLENGE</h2>
+                    <p>Complete battle missions and win diamonds, skins, and elite rewards.</p>
+                    <a class="event-btn" href="https://ff.garena.com/en/" target="_blank" rel="noopener noreferrer">PLAY NOW</a>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <div class="event-content">
+                    <h2>WORLD CHAMPIONSHIP</h2>
+                    <p>Join the biggest Free Fire esports championship and compete globally.</p>
+                    <a class="event-btn" href="register.html">REGISTER</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="countdown-container">
+            <h2>NEXT TOURNAMENT STARTS IN</h2>
+            <div class="countdown">
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <p>Minutes</p>
+                </div>
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <p>Seconds</p>
+                </div>
+                <div class="time-box">
+                    <span id="milliseconds">000</span>
+                    <p>Millisec</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function startBackgroundVideos() {
+            document.querySelectorAll('video').forEach(function (video) {
+                video.muted = true;
+                var playAttempt = video.play();
+                if (playAttempt && playAttempt.catch) playAttempt.catch(function () {});
+            });
+        }
+
+        function startEventCountdown() {
+            var minutesEl = document.getElementById('minutes');
+            var secondsEl = document.getElementById('seconds');
+            var millisecondsEl = document.getElementById('milliseconds');
+
+            if (!minutesEl || !secondsEl || !millisecondsEl) return;
+
+            var countdownDurationMs = 5 * 60 * 1000; // 5 minutes
+            var endTime = Date.now() + countdownDurationMs;
+
+            function pad2(value) {
+                return String(value).padStart(2, '0');
+            }
+
+            function pad3(value) {
+                return String(value).padStart(3, '0');
+            }
+
+            function tick() {
+                var remaining = endTime - Date.now();
+
+                if (remaining <= 0) {
+                    endTime = Date.now() + countdownDurationMs;
+                    remaining = countdownDurationMs;
+                }
+
+                var minutes = Math.floor(remaining / 60000);
+                var seconds = Math.floor((remaining % 60000) / 1000);
+                var milliseconds = remaining % 1000;
+
+                minutesEl.textContent = pad2(minutes);
+                secondsEl.textContent = pad2(seconds);
+                millisecondsEl.textContent = pad3(milliseconds);
+
+                requestAnimationFrame(tick);
+            }
+
+            requestAnimationFrame(tick);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                startBackgroundVideos();
+                startEventCountdown();
+            });
+        } else {
+            startBackgroundVideos();
+            startEventCountdown();
+        }
+
+        (function initBackgroundMusic() {
+            var music = document.getElementById('bg-music');
+            if (!music) return;
+            music.volume = 0.35;
+
+            function tryPlayMusic() {
+                var attempt = music.play();
+                if (attempt && attempt.catch) attempt.catch(function () {});
+            }
+
+            tryPlayMusic();
+            document.addEventListener('click', tryPlayMusic, { once: true });
+            document.addEventListener('keydown', tryPlayMusic, { once: true });
+            document.addEventListener('touchstart', tryPlayMusic, { once: true });
+        })();
+
+    </script>
+</body>
+</html>
